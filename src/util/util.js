@@ -110,7 +110,7 @@ export const mapAccounts = (accounts, farms) => {
   return mapped;
 }
 
-const sortAccounts = (accounts, descend = true) => {
+export const sortAccounts = (accounts, descend = true) => {
   const sort = new Map(
     Array.from(accounts).sort((a, b) => {
       if(a[1].totalValue > b[1].totalValue) {
