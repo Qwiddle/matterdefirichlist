@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { mapAccounts, matchFarms } from '../util/util.js';
 import { 
   fetchSpicyPools, 
   fetchSpicyTokens, 
@@ -20,12 +21,21 @@ export const useMatter = () => {
   const [accounts, setAccounts] = useState(null)
 
   const fetchAll = async () => {
-    setTokens(await fetchSpicyTokens());
-    setPools(await fetchSpicyPools());
+    const accounts = await fetchAccountsInternal();
+    const farms = await fetchMatterFarms();
+    const configs = await fetchMatterConfigs();
+    const tokens = await fetchSpicyTokens();
+    const pools = await fetchSpicyPools();
+
+    const matchedFarms = matchFarms(pools, tokens, farms, configs);
+    const matchedAccounts = mapAccounts(accounts, matchedFarms);
+
+    setTokens(tokens);
+    setPools(pools);
+    setConfigs(configs);
+    setFarms(matchedFarms);
+    setAccounts(matchedAccounts);
     setMatterPrice(await fetchMatterPrice());
-    setConfigs(await fetchMatterConfigs());
-    setFarms(await fetchMatterFarms());
-    setAccounts(await fetchAccountsInternal());
     setLoading(false);
   }
 
