@@ -1,5 +1,7 @@
 import './App.css';
 import { useMatter } from './hooks/useMatter';
+import CollapsibleTable from './components/CollapsibleTable';
+import SearchAppBar from './components/SearchAppBar';
 
 const App = () => {
   const { 
@@ -12,14 +14,21 @@ const App = () => {
     accounts
   } = useMatter();
 
-  if(loading) return <h1>Loading</h1>
+  if(loading) return (
+    <div className="app">
+      <SearchAppBar />
+      <div className="content">
+        <h1>Loading</h1>
+      </div>
+    </div>
+  )
 
   return (
     <div className="app">
-      <h1>Data fetched successfully.</h1>
-      {JSON.stringify(tokens)}
-      <h1>Pools</h1>
-      {JSON.stringify(pools)}
+      <SearchAppBar />
+      <div className="content">
+        <CollapsibleTable />
+      </div>
     </div>
   )
 }
