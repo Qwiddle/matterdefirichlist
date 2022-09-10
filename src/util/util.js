@@ -34,17 +34,18 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs) => {
         value: p.value,
         ...(findPool && { 
           pool: { 
-            symbol: p.symbol,
             supply: p.supply,
             ...findPool,
             decimals: 18
-          } 
+          },
+          symbol: p.symbol
         }),
         ...(findToken && { 
           token: { 
             supply: p.supply,
             ...findToken,
-          } 
+          },
+          symbol: p.symbol,
         }),
         single: findPool ? false : true,
         rps: Number(findConfig.value.reward_per_sec),
@@ -64,8 +65,8 @@ export const mapAccounts = (accounts, farms) => {
     
     const farm = farms.find(farm => farm.key.fa2_address === current.key.token.fa2_address);  
     const farmValue = farm && current.value.staked != 0 ? Number(lpToTez(BigNumber(current.value.staked), farm)) : 0;
-    
-    const symbol = farm && farm.pool ? farm.pool.symbol : '';
+    const farmReserve = farm && farm.pool ? farm.pool.reserve : 0;
+    const symbol = farm ? farm.symbol : '';
 
     current.totalValue = Number(farmValue);
 
@@ -81,7 +82,8 @@ export const mapAccounts = (accounts, farms) => {
             contract: current.key.token.fa2_address,
             totalPercent: '0',
             value: Number(farmValue),
-            symbol: symbol
+            symbol: symbol,
+            reserve: farmReserve
           }
         }
       });
@@ -98,7 +100,8 @@ export const mapAccounts = (accounts, farms) => {
             contract: current.key.token.fa2_address,
             totalPercent: '0',
             value: Number(farmValue),
-            symbol: symbol
+            symbol: symbol,
+            reserve: farmReserve
           }
         }
       });
@@ -111,15 +114,25 @@ export const mapAccounts = (accounts, farms) => {
 }
 
 export const sortAccounts = (accounts, descend = true) => {
-  const sort = new Map(
-    Array.from(accounts).sort((a, b) => {
-      if(a[1].totalValue > b[1].totalValue) {
-        return descend ? -1 : 1;
-      } else {
-        return descend ? 1 : -1;
-      }
-    })
-  );
+  const sorted = [...accounts].sort((a, b) => {
+    if(a[1].totalValue > b[1].totalValue) {
+      return descend ? -1 : 1;
+    } else {
+      return descend ? 1 : -1;
+    }
+  })
 
-  return sort;
+  return sorted;
+}
+
+export const sortFarms = (farms, descend = true) => {
+  const sorted = [...farms].sort((a, b) => {
+    if(a.value > b.value) {
+      return descend ? -1 : 1;
+    } else {
+      return descend ? 1 : -1;
+    }
+  })
+
+  return sorted;
 }
