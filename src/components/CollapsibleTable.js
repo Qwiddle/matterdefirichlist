@@ -13,7 +13,10 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { sortAccounts } from '../util/util';
+import { 
+  sortAccounts,
+  sortFarms 
+} from '../util/util';
 
 function Row(props) {
   const { row } = props;
@@ -21,8 +24,9 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} onClick={() => setOpen(!open)}>
         <TableCell>
+          {row.rank + 1}
           <IconButton
             aria-label="expand row"
             size="small"
@@ -32,9 +36,9 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell>
-          {row.address}
+          <a href={`https://tzkt.io/${row.address}/`} target="_blank">{row.address}</a>
         </TableCell>
-        <TableCell>{row.totalValue}</TableCell>
+        <TableCell>ꜩ {row.totalValue}</TableCell>
         <TableCell>{row.numFarms}</TableCell>
       </TableRow>
       <TableRow>
@@ -53,13 +57,13 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.farms.map((farm) => (
+                  {sortFarms(row.farms).map((farm) => (
                     <TableRow key={farm.contract}>
                       <TableCell component="th" scope="row">
-                        {farm.contract}
+                        {farm.symbol}
                       </TableCell>
-                      <TableCell>{farm.staked}</TableCell>
-                      <TableCell>NA</TableCell>
+                      <TableCell>ꜩ {farm.value}</TableCell>
+                      <TableCell>⚠️ todo</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -74,14 +78,16 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
+    rank: PropTypes.number.isRequired,
     address: PropTypes.string.isRequired,
     totalValue: PropTypes.number.isRequired,
     numFarms: PropTypes.number.isRequired,
     farms: PropTypes.arrayOf(
       PropTypes.shape({
         symbol: PropTypes.string.isRequired,
-        staked: PropTypes.number.isRequired,
+        value: PropTypes.number.isRequired,
         totalPercent: PropTypes.string.isRequired,
+        reserve: PropTypes.number.isRequired
       }),
     ).isRequired,
   }).isRequired,
@@ -93,17 +99,19 @@ export default function CollapsibleTable({ accounts }) {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
+            <TableCell>Ranking</TableCell>
             <TableCell>Address</TableCell>
-            <TableCell>Total Staked</TableCell>
-            <TableCell>Farms</TableCell>
+            <TableCell>TVL</TableCell>
+            <TableCell>Farms (#)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {[...sortAccounts(accounts)].map(([key, value]) => {
+          {[...sortAccounts(accounts)].map(([key, value], index) => {
+            value.rank = index;
             value.address = key;
             value.numFarms = Object.keys(value.farms).length;
             value.farms = Object.keys(value.farms).map(key => value.farms[key]);
+            
             return <Row key={key} row={value} />
           })}
         </TableBody>
