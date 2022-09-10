@@ -4,12 +4,12 @@ const lpToTez = (staked, farm) => {
   if(!farm.single) {
     const { reserve, supply, decimals } = farm.pool;
     const tezPerLp = BigNumber(reserve).dividedBy(BigNumber(supply).shiftedBy(-decimals));
-    const lpValue = tezPerLp.multipliedBy(staked.shiftedBy(-decimals));
+    const lpValue = tezPerLp.multipliedBy(BigNumber(staked).shiftedBy(-decimals));
 
     return lpValue.toFixed(2);
   } else {
     const { derivedXtz, decimals } = farm.token;
-    const tokenValue = BigNumber(derivedXtz).multipliedBy(staked.shiftedBy(-decimals));
+    const tokenValue = BigNumber(derivedXtz).multipliedBy(BigNumber(staked).shiftedBy(-decimals));
 
     return tokenValue.toFixed(2);
   }
@@ -64,7 +64,9 @@ export const mapAccounts = (accounts, farms) => {
     
     const farm = farms.find(farm => farm.key.fa2_address === current.key.token.fa2_address);  
     const farmValue = farm && current.value.staked != 0 ? Number(lpToTez(BigNumber(current.value.staked), farm)) : 0;
- 
+    
+    const symbol = farm && farm.pool ? farm.pool.symbol : '';
+
     current.totalValue = Number(farmValue);
 
     if(!grouped) {
@@ -75,8 +77,11 @@ export const mapAccounts = (accounts, farms) => {
           [current.key.token.fa2_address]: { 
             tokenId: current.key.token.token_id,
             reward: BigNumber(current.value.reward), 
-            staked: BigNumber(current.value.staked),
-            value: Number(farmValue)
+            staked: Number(current.value.staked),
+            contract: current.key.token.fa2_address,
+            totalPercent: '0',
+            value: Number(farmValue),
+            symbol: symbol
           }
         }
       });
@@ -89,8 +94,11 @@ export const mapAccounts = (accounts, farms) => {
           [current.key.token.fa2_address]: {
             tokenId: current.key.token.token_id,
             reward: BigNumber(current.value.reward), 
-            staked: BigNumber(current.value.staked),
-            value: Number(farmValue)
+            staked: Number(current.value.staked),
+            contract: current.key.token.fa2_address,
+            totalPercent: '0',
+            value: Number(farmValue),
+            symbol: symbol
           }
         }
       });
