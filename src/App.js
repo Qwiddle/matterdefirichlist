@@ -27,7 +27,7 @@ const App = () => {
     <div className="app">
       <SearchAppBar />
       <div className="content">
-        <CollapsibleTable />
+        <CollapsibleTable accounts={accounts} />
       </div>
     </div>
   )
