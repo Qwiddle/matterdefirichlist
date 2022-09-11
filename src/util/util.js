@@ -73,7 +73,7 @@ export const mapAccounts = (accounts, farms) => {
 
     current.totalValue = Number(farmValue);
 
-    if(farm) {
+    if(farm && Number(farmValue) != 0) {
       const farmBalance = farm.pool ? farm.pool.balance : farm.token.balance;
 
       if(!grouped) {
