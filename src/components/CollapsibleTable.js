@@ -31,6 +31,7 @@ function Row(props) {
             aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
+            sx={{ ml: 1 }}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
