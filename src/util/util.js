@@ -15,7 +15,7 @@ const lpToTez = (staked, farm) => {
   }
 }
 
-export const matchFarms = (spicyPools, spicyTokens, farms, configs) => {
+export const matchFarms = (spicyPools, spicyTokens, farms, configs, balances) => {
   const today = new Date;
   const active = new Date(configs[0].active_time);
 
@@ -27,6 +27,7 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs) => {
     const findToken = spicyTokens.find(token => token.tag === `${p.key.fa2_address}:${p.key.token_id}`);
     const findPool = spicyPools.find(pool => pool.contract === p.key.fa2_address);
     const findConfig = activeConfig.find(config => config.key.fa2_address === p.key.fa2_address);
+    const findBalance = balances.find(balance => balance.contract.address === p.key.fa2_address);
 
     if (findConfig) {
       a.push({
@@ -36,7 +37,8 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs) => {
           pool: { 
             supply: p.supply,
             ...findPool,
-            decimals: 18
+            decimals: 18,
+            balance: findBalance.balance
           },
           symbol: p.symbol
         }),
@@ -44,6 +46,7 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs) => {
           token: { 
             supply: p.supply,
             ...findToken,
+            balance: findBalance.balance
           },
           symbol: p.symbol,
         }),
@@ -71,6 +74,8 @@ export const mapAccounts = (accounts, farms) => {
     current.totalValue = Number(farmValue);
 
     if(farm) {
+      const farmBalance = farm.pool ? farm.pool.balance : farm.token.balance;
+
       if(!grouped) {
         map.set(address, { 
           totalValue: current.totalValue,
@@ -85,7 +90,8 @@ export const mapAccounts = (accounts, farms) => {
                 totalPercent: '0',
                 value: Number(farmValue),
                 symbol: symbol,
-                reserve: farmReserve
+                reserve: farmReserve,
+                balance: Number(farmBalance)
               }
             }),
           }
@@ -105,7 +111,8 @@ export const mapAccounts = (accounts, farms) => {
                 totalPercent: '0',
                 value: Number(farmValue),
                 symbol: symbol,
-                reserve: farmReserve
+                reserve: farmReserve,
+                balance: Number(farmBalance)
               }
             }),
           }
