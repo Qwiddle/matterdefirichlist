@@ -70,41 +70,47 @@ export const mapAccounts = (accounts, farms) => {
 
     current.totalValue = Number(farmValue);
 
-    if(!grouped) {
-      map.set(address, { 
-        totalValue: current.totalValue,
-        farms: {
-          ...current.farms, 
-          [current.key.token.fa2_address]: { 
-            tokenId: current.key.token.token_id,
-            reward: BigNumber(current.value.reward), 
-            staked: Number(current.value.staked),
-            contract: current.key.token.fa2_address,
-            totalPercent: '0',
-            value: Number(farmValue),
-            symbol: symbol,
-            reserve: farmReserve
+    if(farm) {
+      if(!grouped) {
+        map.set(address, { 
+          totalValue: current.totalValue,
+          farms: {
+            ...current.farms,
+            ...(farmValue != 0 && { 
+              [current.key.token.fa2_address]: { 
+                tokenId: current.key.token.token_id,
+                reward: BigNumber(current.value.reward), 
+                staked: Number(current.value.staked),
+                contract: current.key.token.fa2_address,
+                totalPercent: '0',
+                value: Number(farmValue),
+                symbol: symbol,
+                reserve: farmReserve
+              }
+            }),
           }
-        }
-      });
-    } else {
-      map.set(address, { 
-        ...grouped, 
-        totalValue: Number(grouped.totalValue) + Number(current.totalValue), 
-        farms: {
-          ...grouped.farms, 
-          [current.key.token.fa2_address]: {
-            tokenId: current.key.token.token_id,
-            reward: BigNumber(current.value.reward), 
-            staked: Number(current.value.staked),
-            contract: current.key.token.fa2_address,
-            totalPercent: '0',
-            value: Number(farmValue),
-            symbol: symbol,
-            reserve: farmReserve
+        });
+      } else {
+        map.set(address, { 
+          ...grouped, 
+          totalValue: Number(grouped.totalValue) + Number(current.totalValue), 
+          farms: {
+            ...grouped.farms, 
+            ...(farmValue != 0 && { 
+              [current.key.token.fa2_address]: { 
+                tokenId: current.key.token.token_id,
+                reward: BigNumber(current.value.reward), 
+                staked: Number(current.value.staked),
+                contract: current.key.token.fa2_address,
+                totalPercent: '0',
+                value: Number(farmValue),
+                symbol: symbol,
+                reserve: farmReserve
+              }
+            }),
           }
-        }
-      });
+        });
+      }
     }
 
     return map;
