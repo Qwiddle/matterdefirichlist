@@ -63,7 +63,7 @@ function Row(props) {
                         {farm.symbol}
                       </TableCell>
                       <TableCell>ꜩ {farm.value}</TableCell>
-                      <TableCell>⚠️ todo</TableCell>
+                      <TableCell>{((farm.staked / farm.balance) * 100).toFixed(2)} %</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
