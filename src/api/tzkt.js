@@ -59,9 +59,9 @@ export const fetchMatterFarms = async () => {
   return farms;
 }
 
-const fetchMatterBalances = async () => {
+export const fetchMatterBalances = async () => {
   const req = `&limit=100&select=balance,token.id%20as%20id,token.contract%20as%20contract,token.standard%20as%20standard,token.tokenId%20as%20token_id`
-  const res = await (await fetch(`${TZKT_API}/v1/tokens/balances?account=${MATTER}${req}`)).json();
+  const res = await (await fetch(`${TZKT_API}/tokens/balances?account=${MATTER}${req}`)).json();
 
   console.log('Matter balances: ', res);
 
