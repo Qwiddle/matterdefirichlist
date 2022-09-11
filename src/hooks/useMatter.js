@@ -5,7 +5,8 @@ import {
   fetchSpicyTokens, 
   fetchMatterPrice 
 } from '../api/spicy.js';
-import { 
+import {
+  fetchMatterBalances,
   fetchMatterConfigs,
   fetchMatterFarms,
   fetchAccountsInternal,
@@ -19,6 +20,7 @@ export const useMatter = () => {
   const [configs, setConfigs] = useState(null)
   const [farms, setFarms] = useState(null)
   const [accounts, setAccounts] = useState(null)
+  const [balances, setBalances] = useState(null)
 
   const fetchAll = async () => {
     const accounts = await fetchAccountsInternal();
@@ -26,15 +28,27 @@ export const useMatter = () => {
     const configs = await fetchMatterConfigs();
     const tokens = await fetchSpicyTokens();
     const pools = await fetchSpicyPools();
+    const balances = await fetchMatterBalances();
 
-    const matchedFarms = matchFarms(pools, tokens, farms, configs);
-    const matchedAccounts = mapAccounts(accounts, matchedFarms);
+    const matchedFarms = matchFarms(
+      pools, 
+      tokens, 
+      farms, 
+      configs,
+      balances
+    );
+    
+    const matchedAccounts = mapAccounts(
+      accounts, 
+      matchedFarms
+    );
 
     setTokens(tokens);
     setPools(pools);
     setConfigs(configs);
     setFarms(matchedFarms);
     setAccounts(matchedAccounts);
+    setBalances()
     setMatterPrice(await fetchMatterPrice());
     setLoading(false);
   }
