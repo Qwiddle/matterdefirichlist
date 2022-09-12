@@ -98,7 +98,7 @@ export default function CollapsibleTable({ accounts, input }) {
 
   const data = !input.input ? 
     [...sortAccounts(accounts)] : 
-    [...sortAccounts(accounts)].filter(acc => acc[0].toLowerCase().includes(input.input))
+    [...sortAccounts(accounts)].filter(acc => acc[0].toLowerCase().includes(input.input.toLowerCase()))
 
   return (
     <TableContainer component={Paper}>
