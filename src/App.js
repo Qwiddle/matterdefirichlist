@@ -22,22 +22,15 @@ const App = () => {
     setSearchFilter({ ...searchFilter, input });
   }
 
-  if(loading) return (
-    <div className="app">
-      <SearchAppBar />
-      <div className="loading">
-        <CircularProgress color="inherit" />
-      </div>
-    </div>
-  )
-
   return (
     <div className="app">
-      <SearchAppBar 
-        handleInputChange={handleInputChange} />
-      <div className="content">
+      <SearchAppBar handleInputChange={handleInputChange} />
+      {loading ?
+      <div className="loading">
+        <CircularProgress color="inherit" />
+      </div> : <div className="content">
         <CollapsibleTable accounts={accounts} input={searchFilter} />
-      </div>
+      </div>}
     </div>
   )
 }
