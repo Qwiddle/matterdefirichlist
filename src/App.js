@@ -7,12 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const App = () => {
   const { 
-    loading, 
-    tokens, 
-    pools, 
-    matterPrice,
-    configs,
-    farms,
+    loading,
     accounts
   } = useMatter();
 
