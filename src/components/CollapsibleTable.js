@@ -94,7 +94,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function CollapsibleTable({ accounts }) {
+export default function CollapsibleTable({ accounts, input }) {
+
+  const data = !input.input ? 
+    [...sortAccounts(accounts)] : 
+    [...sortAccounts(accounts)].filter(acc => acc[0].toLowerCase().includes(input.input))
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -107,7 +112,7 @@ export default function CollapsibleTable({ accounts }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {[...sortAccounts(accounts)].map(([key, value], index) => {
+          { data.map(([key, value], index) => {
             value.rank = index;
             value.address = key;
             value.numFarms = Object.keys(value.farms).length;
