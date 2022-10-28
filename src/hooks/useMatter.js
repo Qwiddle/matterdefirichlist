@@ -23,13 +23,14 @@ export const useMatter = () => {
   const [balances, setBalances] = useState(null)
 
   const fetchAll = async () => {
-    const accounts = await fetchAccountsInternal();
-    const farms = await fetchMatterFarms();
-    const configs = await fetchMatterConfigs();
-    const tokens = await fetchSpicyTokens();
-    const pools = await fetchSpicyPools();
-    const balances = await fetchMatterBalances();
-
+    const [accounts, farms, configs, tokens, pools, balances] = await Promise.all([
+      fetchAccountsInternal(),
+      fetchMatterFarms(),
+      fetchMatterConfigs(),
+      fetchSpicyTokens(),
+      fetchSpicyPools(),
+      fetchMatterBalances(),
+    ]);
     const matchedFarms = matchFarms(
       pools, 
       tokens, 
