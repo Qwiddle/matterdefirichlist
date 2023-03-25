@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js';
 
 import { 
-  SPICY_API, 
+  SPICY_API,
+  SPICY_STABLE_API,
   MATTER 
 } from './api.js';
 
@@ -55,4 +56,20 @@ export const fetchSpicyPools = async () => {
   console.log('SpicySwap pools:', spicyPools);
 
   return spicyPools;
+}
+
+export const fetchSpicyStablePools = async () => {
+  const res = await (await fetch(`${SPICY_STABLE_API}/PoolListAll/`)).json();
+  const pools = res.pair_info;
+  
+  const spicyStablePools = pools.map(pool => ({
+    contract: pool.contract, 
+    reserve: pool.reservextz, 
+    token0: pool.token0, 
+    token1: pool.token1
+  }));
+
+  console.log('SpicySwap stable pools:', spicyStablePools);
+
+  return spicyStablePools;
 }

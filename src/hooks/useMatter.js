@@ -3,7 +3,8 @@ import { mapAccounts, matchFarms } from '../util/util.js';
 import { 
   fetchSpicyPools, 
   fetchSpicyTokens, 
-  fetchMatterPrice 
+  fetchMatterPrice, 
+  fetchSpicyStablePools
 } from '../api/spicy.js';
 import {
   fetchMatterBalances,
@@ -16,6 +17,7 @@ export const useMatter = () => {
   const [loading, setLoading] = useState(true)
   const [tokens, setTokens] = useState(null)
   const [pools, setPools] = useState(null)
+  const [stablePools, setStablePools] = useState(null)
   const [matterPrice, setMatterPrice] = useState(null)
   const [configs, setConfigs] = useState(null)
   const [farms, setFarms] = useState(null)
@@ -23,16 +25,27 @@ export const useMatter = () => {
   const [balances, setBalances] = useState(null)
 
   const fetchAll = async () => {
-    const [accounts, farms, configs, tokens, pools, balances] = await Promise.all([
+    const [
+      accounts, 
+      farms, 
+      configs, 
+      tokens, 
+      pools, 
+      stablePools, 
+      balances
+    ] = await Promise.all([
       fetchAccountsInternal(),
       fetchMatterFarms(),
       fetchMatterConfigs(),
       fetchSpicyTokens(),
       fetchSpicyPools(),
+      fetchSpicyStablePools(),
       fetchMatterBalances(),
     ]);
+
     const matchedFarms = matchFarms(
-      pools, 
+      pools,
+      stablePools,
       tokens, 
       farms, 
       configs,
@@ -46,10 +59,11 @@ export const useMatter = () => {
 
     setTokens(tokens);
     setPools(pools);
+    setStablePools(stablePools);
     setConfigs(configs);
     setFarms(matchedFarms);
     setAccounts(matchedAccounts);
-    setBalances()
+    setBalances();
     setMatterPrice(await fetchMatterPrice());
     setLoading(false);
   }
@@ -61,7 +75,8 @@ export const useMatter = () => {
   return { 
     loading, 
     tokens, 
-    pools, 
+    pools,
+    stablePools,
     matterPrice,
     configs, 
     farms, 

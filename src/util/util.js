@@ -15,8 +15,8 @@ const lpToTez = (staked, farm) => {
   }
 }
 
-export const matchFarms = (spicyPools, spicyTokens, farms, configs, balances) => {
-  const today = new Date;
+export const matchFarms = (spicyPools, spicyStablePools, spicyTokens, farms, configs, balances) => {
+  const today = new Date();
   const active = new Date(configs[0].active_time);
 
   let activeConfig = today.getTime() >= active.getTime() ?
@@ -26,6 +26,7 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs, balances) =>
   const mapped = farms.reduce((a, p) => {
     const findToken = spicyTokens.find(token => token.tag === `${p.key.fa2_address}:${p.key.token_id}`);
     const findPool = spicyPools.find(pool => pool.contract === p.key.fa2_address);
+    const findStablePool = spicyStablePools.find(pool => pool.contract === p.key.fa2_address);
     const findConfig = activeConfig.find(config => config.key.fa2_address === p.key.fa2_address);
     const findBalance = balances.find(balance => balance.contract.address === p.key.fa2_address);
 
@@ -33,10 +34,19 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs, balances) =>
       a.push({
         key: p.key,
         value: p.value,
-        ...(findPool && { 
+        ...(findPool  && { 
           pool: { 
             supply: p.supply,
             ...findPool,
+            decimals: 18,
+            balance: findBalance.balance
+          },
+          symbol: p.symbol
+        }),
+        ...(findStablePool  && { 
+          pool: { 
+            supply: p.supply,
+            ...findStablePool,
             decimals: 18,
             balance: findBalance.balance
           },
@@ -50,7 +60,7 @@ export const matchFarms = (spicyPools, spicyTokens, farms, configs, balances) =>
           },
           symbol: p.symbol,
         }),
-        single: findPool ? false : true,
+        single: findPool || findStablePool ? false : true,
         rps: Number(findConfig.value.reward_per_sec),
       });
     }
@@ -66,10 +76,10 @@ export const mapAccounts = (accounts, farms) => {
     const address = current.key.user_address;
     const grouped = map.get(address);
     
-    const farm = farms.find(farm => farm.key.fa2_address === current.key.token.fa2_address);  
+    const farm = farms.find(farm => farm.key.fa2_address === current.key.token.fa2_address);
     const farmValue = farm && current.value.staked != 0 ? Number(lpToTez(BigNumber(current.value.staked), farm)) : 0;
     const farmReserve = farm && farm.pool ? farm.pool.reserve : 0;
-    const symbol = farm ? farm.symbol : '';
+    const symbol = farm && farm.symbol ? farm.symbol : '';
 
     current.totalValue = Number(farmValue);
 
@@ -121,7 +131,7 @@ export const mapAccounts = (accounts, farms) => {
     }
 
     return map;
-  }, new Map);
+  }, new Map());
 
   return mapped;
 }
