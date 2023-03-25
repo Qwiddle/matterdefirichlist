@@ -1,16 +1,11 @@
 import './App.css';
 import { useState } from 'react';
-import { useMatter } from './hooks/useMatter';
-import CollapsibleTable from './components/CollapsibleTable';
 import SearchAppBar from './components/SearchAppBar';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Routes, Route } from 'react-router-dom';
+import { Matter } from './pages/Matter';
+import { PageLayout } from './components/PageLayout';
 
 const App = () => {
-  const { 
-    loading,
-    accounts
-  } = useMatter();
-
   const [searchFilter, setSearchFilter] = useState('');
 
   const handleInputChange = (input) => {
@@ -19,13 +14,34 @@ const App = () => {
 
   return (
     <div className="app">
-      <SearchAppBar handleInputChange={handleInputChange} />
-      {loading ?
-      <div className="loading">
-        <CircularProgress color="inherit" />
-      </div> : <div className="content">
-        <CollapsibleTable accounts={accounts} input={searchFilter} />
-      </div>}
+      <Routes>
+        <Route path="/" element={
+          <PageLayout
+            handleInputChange={handleInputChange} 
+          />
+        }>
+          <Route 
+            index 
+            element={<Matter 
+              searchFilter={searchFilter} 
+            />}
+          />
+          <Route 
+            path="matter" 
+            element={<Matter 
+              searchFilter={searchFilter} 
+            />}
+          />
+          <Route 
+            path="casino"
+            element
+          />
+          <Route
+            path="*" 
+            element
+          />
+        </Route>
+      </Routes>
     </div>
   )
 }
