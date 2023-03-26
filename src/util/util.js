@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { spicyStablePoolSymbol } from '../const';
 
 const lpToTez = (staked, farm) => {
   if(!farm.single) {
@@ -41,7 +42,7 @@ export const matchFarms = (spicyPools, spicyStablePools, spicyTokens, farms, con
             decimals: 18,
             balance: findBalance.balance
           },
-          symbol: p.symbol
+          symbol: !findStablePool ? p.symbol : spicyStablePoolSymbol
         }),
         ...(findStablePool  && { 
           pool: { 
@@ -50,7 +51,7 @@ export const matchFarms = (spicyPools, spicyStablePools, spicyTokens, farms, con
             decimals: 18,
             balance: findBalance.balance
           },
-          symbol: p.symbol
+          symbol: !findStablePool ? p.symbol : spicyStablePoolSymbol
         }),
         ...(findToken && { 
           token: { 
@@ -58,7 +59,7 @@ export const matchFarms = (spicyPools, spicyStablePools, spicyTokens, farms, con
             ...findToken,
             balance: findBalance.balance
           },
-          symbol: p.symbol,
+          symbol: !findStablePool ? p.symbol : spicyStablePoolSymbol,
         }),
         single: findPool || findStablePool ? false : true,
         rps: Number(findConfig.value.reward_per_sec),
