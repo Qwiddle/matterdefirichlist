@@ -5,11 +5,14 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import CancelIcon from '@mui/icons-material/Cancel';
-import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -18,10 +21,11 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
+  marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(3),
     width: 'auto',
   },
 }));
@@ -44,16 +48,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+    [theme.breakpoints.up('md')]: {
+      width: '40ch',
     },
   },
 }));
 
-export default function SearchAppBar({ handleInputChange }) {
+const NavLink = styled(Link)`
+  color: inherit;
+  text-decoration: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  padding-right: 10px;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export default function SearchAppBar({ handleInputChange}) {
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
   const [input, setInput] = useState('');
 
   const handleChange = (e) => {
@@ -61,10 +78,39 @@ export default function SearchAppBar({ handleInputChange }) {
     handleInputChange(input);
   }
 
-  const handleClear = () => {
-    setInput('');
-    handleInputChange('');
-  }
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <NavLink to="/matter">Matter</NavLink>
+      </MenuItem>
+      <MenuItem>
+        <NavLink to="/casino">Casino</NavLink>
+      </MenuItem>
+    </Menu>
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -74,14 +120,14 @@ export default function SearchAppBar({ handleInputChange }) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex', gap: '24px' } }}
           >
-            💰 Matter Rich List
+            💰 sDAO Community Stats
           </Typography>
-          <Tooltip 
-            title="Hit enter to search">
-            <form onSubmit={handleChange}>
-              <Search>
+          <Search>
+            <Tooltip 
+              title="Hit enter to search">
+              <form onSubmit={handleChange}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
@@ -91,20 +137,30 @@ export default function SearchAppBar({ handleInputChange }) {
                   onChange={(e) => setInput(e.target.value)}
                   value={input}
                 />
-              </Search>
-            </form>
-          </Tooltip>
-          <Button
-            sx={{ marginLeft: '2em' }}
-            variant="contained"
-            color="error"
-            startIcon={<CancelIcon />}
-            onClick={handleClear}
-          >
-            Clear
-          </Button>
+              </form>
+            </Tooltip>
+           
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
+            <NavLink to="/matter">Matter</NavLink>
+            <NavLink to="/casino">Gaming Hall</NavLink>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
+      {renderMobileMenu}
     </Box>
   );
 }
