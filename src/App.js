@@ -1,6 +1,5 @@
 import './App.css';
 import { useState } from 'react';
-import SearchAppBar from './components/SearchAppBar';
 import { Routes, Route } from 'react-router-dom';
 import { Matter } from './pages/Matter';
 import { PageLayout } from './components/PageLayout';
