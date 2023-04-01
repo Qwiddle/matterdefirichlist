@@ -32,13 +32,11 @@ const App = () => {
               searchFilter={searchFilter} 
             />}
           />
-          <Route 
-            path="casino"
-            element
-          />
           <Route
             path="*" 
-            element
+            element={<Matter
+              searchFilter={searchFilter}
+            />}
           />
         </Route>
       </Routes>
