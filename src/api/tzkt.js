@@ -21,6 +21,19 @@ export const fetchSupply = async (contract, id) => {
   return supply;
 }
 
+export const fetchTokenContract = async (contract, id) => {
+  const req = `${TZKT_API}/tokens/?contract=${contract}${id ? `&tokenId=${id}` : ``}`;
+  const res = await (await fetch(req)).json();
+
+  const { totalSupply } = res[0];
+  const { alias } = res[0].contract;
+
+  return {
+    supply: totalSupply,
+    alias,
+  };
+}
+
 export const fetchAccountsInternal = async () => {
   const req = `${TZKT_API}/contracts/${MATTER}/bigmaps/accounts_internal/keys?limit=1000`;
   const res = await (await fetch(req)).json();
@@ -46,12 +59,16 @@ export const fetchMatterFarms = async () => {
   const res = await (await fetch(req)).json();
 
   const farms = await Promise.all(
-    res.map(async farm => ({
-      symbol: await fetchTokenName(farm.key.fa2_address),
-      key: farm.key,
-      value: farm.value,
-      supply: await fetchSupply(farm.key.fa2_address, farm.key.token_id),
-    }))
+    res.map(async farm => {
+      const { supply, alias } = await fetchTokenContract(farm.key.fa2_address, farm.key.token_id);
+      
+      return {
+        symbol: alias,
+        key: farm.key,
+        value: farm.value,
+        supply: supply,
+      }
+    })
   );
 
   console.log('Farms: ', farms);
