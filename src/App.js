@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Matter } from './pages/Matter';
+import { Casino } from './pages/Casino';
 import { PageLayout } from './components/PageLayout';
 
 const App = () => {
@@ -30,6 +31,10 @@ const App = () => {
             element={<Matter 
               searchFilter={searchFilter} 
             />}
+          />
+          <Route 
+            path="casino"
+            element={<Casino />}
           />
           <Route
             path="*" 
