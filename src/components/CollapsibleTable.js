@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -96,9 +97,9 @@ Row.propTypes = {
 
 export default function CollapsibleTable({ accounts, input }) {
 
-  const data = !input.input ? 
+  const data = !input ? 
     [...sortAccounts(accounts)] : 
-    [...sortAccounts(accounts)].filter(acc => acc[0].toLowerCase().includes(input.input.toLowerCase()))
+    [...sortAccounts(accounts)].filter(acc => acc[0].toLowerCase().includes(input.toLowerCase()))
 
   return (
     <TableContainer component={Paper}>

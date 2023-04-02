@@ -8,7 +8,7 @@ const App = () => {
   const [searchFilter, setSearchFilter] = useState('');
 
   const handleInputChange = (input) => {
-    setSearchFilter({ ...searchFilter, input });
+    setSearchFilter(input);
   }
 
   return (
