@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,6 +13,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -73,10 +74,14 @@ export default function SearchAppBar({ handleInputChange}) {
 
   const [input, setInput] = useState('');
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    handleInputChange(input);
+  const handleChange = (e) => { setInput(e.target.value)
+    setInput(e.target.value);
+    onInputChange(e.target.value);
   }
+
+  const onInputChange = useRef(
+    _.debounce((input) => handleInputChange(input)
+  , 200)).current;
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -125,21 +130,15 @@ export default function SearchAppBar({ handleInputChange}) {
             💰 sDAO Community Stats
           </Typography>
           <Search>
-            <Tooltip 
-              title="Hit enter to search">
-              <form onSubmit={handleChange}>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                  onChange={(e) => setInput(e.target.value)}
-                  value={input}
-                />
-              </form>
-            </Tooltip>
-           
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={handleChange}
+              value={input}
+            />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
