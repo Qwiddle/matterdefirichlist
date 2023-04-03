@@ -73,3 +73,32 @@ export const fetchSpicyStablePools = async () => {
 
   return spicyStablePools;
 }
+
+export const fetchSpicyToken = async (tag, agg = calculateDayAgg()) => {
+  const req = `${SPICY_API}/TokenList?_ilike=${tag}&day_agg_start=${agg}`;
+  const res = await (await fetch(req)).json();
+
+  const token = res.tokens[0]
+
+  console.log('Token:', token);
+
+  return {
+    decimals: token.decimals,
+    metadata: {
+      name: token.name,
+      symbol: token.symbol,
+      img: token.img,
+    },
+  }
+}
+
+export const fetchTokenPrice = async (tag, agg = calculateDayAgg()) => {
+  const req = `${SPICY_API}/TokenList?_ilike=${tag}&day_agg_start=${agg}`;
+  const res = await (await fetch(req)).json();
+
+  const { derivedxtz, derivedusd } = res.tokens[0];
+
+  console.log('Token price:', { derivedxtz, derivedusd });
+
+  return { derivedxtz, derivedusd };
+}

@@ -1,11 +1,17 @@
+import { casinoBankrollWhitelest } from '../const';
+import { filterWhitelisted, splitBetsByTokenAndSum, getHighestWinStreak, matchTokenToBankroll } from '../util/bets';
 import { fetchUserBets, fetchUserInvestments } from '../api/casino';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const useCasino = (userAddress) => {
-  const [investments, setInvestments] = useState(null);
-  const [bets, setBets] = useState(null);
+const useCasino = () => {
+  const [userBets, setUserBets] = useState([]);
+  const [userBetsByToken, setUserBetsByToken] = useState([]);
+  const [userInvestments, setUserInvestments] = useState([]);
+  const [winningBets, setWinningBets] = useState(0);
+  const [losingBets, setLosingBets] = useState(0);
+  const [userHighestWinStreak, setUserHighestWinStreak] = useState(0);
 
-  const fetchAll = async () => {
+  const fetchUserStats = async (userAddress) => {
     const [
       userBets,
       userInvestments
@@ -14,17 +20,57 @@ const useCasino = (userAddress) => {
       fetchUserInvestments(userAddress),
     ]);
 
-    setBets(userBets);
-    setInvestments(userInvestments);
+    const {
+      bets,
+      betsByToken,
+      investments,
+      winningBets,
+      losingBets,
+      highestWinStreak,
+    } = await transformUserStatistics(
+      userBets, 
+      userInvestments, 
+      casinoBankrollWhitelest
+    );
+
+    console.log(bets);
+
+    setUserBets(bets);
+    setUserBetsByToken(betsByToken);
+    setUserInvestments(investments);
+    setWinningBets(winningBets);
+    setLosingBets(losingBets);
+    setUserHighestWinStreak(highestWinStreak);
   }
 
-  useEffect(() => {
-    fetchAll();
-  }, [])
+  const transformUserStatistics = async (bets, investments, whitelist) => {
+    const whitelistedBets = filterWhitelisted(bets, whitelist);
+    const betsByToken = splitBetsByTokenAndSum(whitelistedBets);
+    const highestWinStreak = getHighestWinStreak(whitelistedBets);
+    const winningBets = (whitelistedBets.filter((bet) => bet.winner)).length;
+    const losingBets = (whitelistedBets.filter((bet) => !bet.winner)).length;
 
-  return {
-    investments,
-    bets,
+    const matchedBetsByToken = await matchTokenToBankroll(betsByToken);
+
+    return {
+      bets: whitelistedBets,
+      betsByToken: matchedBetsByToken,
+      investments,
+      winningBets,
+      losingBets,
+      highestWinStreak,
+    }
+  }
+
+  return { 
+    fetchUserStats,
+    matchTokenToBankroll,
+    userBets,
+    userBetsByToken,
+    userInvestments,
+    winningBets,
+    losingBets,
+    userHighestWinStreak,
   }
 }
 
