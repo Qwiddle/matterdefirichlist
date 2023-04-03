@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Matter } from './pages/Matter';
 import { Casino } from './pages/Casino';
@@ -8,8 +8,11 @@ import { PageLayout } from './components/PageLayout';
 const App = () => {
   const [searchFilter, setSearchFilter] = useState('');
 
+  const userAddress = useRef('');
+
   const handleInputChange = (input) => {
     setSearchFilter(input);
+    userAddress.current = input;
   }
 
   return (
@@ -32,10 +35,12 @@ const App = () => {
               searchFilter={searchFilter} 
             />}
           />
-          <Route 
-            path="casino"
-            element={<Casino />}
-          />
+          <Route path="casino">
+            <Route 
+              path=":userAddress" 
+              element={<Casino />}
+            />
+          </Route>
           <Route
             path="*" 
             element={<Matter
