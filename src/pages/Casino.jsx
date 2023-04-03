@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { casinoBankrollTagTickers } from '../const';
 import { CasinoBets } from '../components/CasinoBets';
 import { tokenMapToArray } from '../util/bets';
+import { Chart } from '../components/Chart';
 
 export const Casino = () => {
   const { userAddress } = useParams();
@@ -14,6 +15,7 @@ export const Casino = () => {
   const [totalWagered, setTotalWagered] = useState([]);
   const [totalWinnings, setTotalWinnings] = useState([]);
   const [totalLosses, setTotalLosses] = useState([]);
+  const [user, setUser] = useState('');
 
   const { 
     fetchUserStats,
@@ -33,7 +35,7 @@ export const Casino = () => {
 
       fetchStats().catch(console.error);
     }
-  }, []);
+  }, [userAddress]);
 
   useEffect(() => {
     if (userBetsByToken) {
@@ -45,12 +47,8 @@ export const Casino = () => {
           lost: value.totalLosses,
         }
       }));
-
-
     }
   }, [userBetsByToken]);
-
-  
 
   return (
     <Box
@@ -82,8 +80,10 @@ export const Casino = () => {
               }}
             >
               <div style={{overflow: "hidden", textOverflow: "ellipsis", width: '100%'}}> 
-                <Typography variant="h5" fontWeight={600} noWrap>Lifetime Wagers</Typography>
-              </div>  
+                <Typography variant="h5" fontWeight={600} noWrap>Profit Over Time</Typography>
+              </div>
+
+              <Chart profitData={userBetsByToken} />
             </Paper>
           </Grid>
           {/* Recent Deposits */}
@@ -98,22 +98,21 @@ export const Casino = () => {
                 <Typography variant="h5" component="div">
                   Total Bets: {userBets && userBets.length}
                 </Typography><br></br>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {totalWagered && totalWagered.map((wager, index) => (
                   <>
-                    <b>{wager.symbol}</b>: - total: <b>{wager.total}</b>
+                    <b key={`sym-${index}`}>{wager.symbol}</b>: - total: <b key={`tot-${index}`}>{wager.total}</b>
                     <Typography 
                       sx={{ 
                         fontSize: 14, 
                       }}
                       color={`${(wager.won - wager.lost) > 0 ? `green` : `red`}`}
                       gutterBottom
+                      key={`pl-${index}`}
                     >
-                    p&l: <b>{wager.won - wager.lost > 0 ? `${(wager.won - wager.lost).toFixed(2)} ++` : `${(wager.won - wager.lost).toFixed(2)} --`}</b>
+                    p&l: <b key={`pl-${index}`}>{wager.won - wager.lost > 0 ? `${(wager.won - wager.lost).toFixed(2)} ++` : `${(wager.won - wager.lost).toFixed(2)} --`}</b>
                     </Typography>
                   </>
                 ))}  
-                </Typography>
                 <Typography variant="body2">
                   the sdao community thanks you
                   <br />
