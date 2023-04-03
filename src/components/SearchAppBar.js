@@ -66,7 +66,7 @@ const NavLink = styled(Link)`
   }
 `;
 
-export default function SearchAppBar({ handleInputChange}) {
+export default function SearchAppBar({ handleInputChange, handleSubmit }) {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -132,12 +132,14 @@ export default function SearchAppBar({ handleInputChange}) {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={handleChange}
-              value={input}
-            />
+            <form onSubmit={handleSubmit}>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={handleChange}
+                value={input}
+              />
+            </form>
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
