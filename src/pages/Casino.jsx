@@ -1,10 +1,7 @@
-import { Copyright } from '@mui/icons-material'
 import { Box, Card, CardContent, Container, Grid, Paper, Typography } from '@mui/material'
-import { UserStatistics } from '../components/UserStatistics'
 import useCasino from '../hooks/useCasino';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { casinoBankrollTagTickers } from '../const';
 import { CasinoBets } from '../components/CasinoBets';
 import { tokenMapToArray } from '../util/bets';
 import { Chart } from '../components/Chart';
@@ -13,18 +10,11 @@ export const Casino = () => {
   const { userAddress } = useParams();
 
   const [totalWagered, setTotalWagered] = useState([]);
-  const [totalWinnings, setTotalWinnings] = useState([]);
-  const [totalLosses, setTotalLosses] = useState([]);
-  const [user, setUser] = useState('');
 
   const { 
     fetchUserStats,
     userBets,
     userBetsByToken,
-    userInvestments,
-    winningBets,
-    losingBets,
-    userHighestWinStreak,
   } = useCasino();
 
   useEffect(() => {
@@ -39,7 +29,7 @@ export const Casino = () => {
 
   useEffect(() => {
     if (userBetsByToken) {
-      setTotalWagered(Array.from(userBetsByToken).map(([key, value]) => {
+      setTotalWagered(Array.from(userBetsByToken).map(([, value]) => {
         return {
           symbol: value.token.metadata.symbol,
           total: value.totalShifted,
@@ -119,7 +109,6 @@ export const Casino = () => {
                 </Typography>
               </CardContent>
             </Card>
-            <UserStatistics />
           </Grid>
           {/* Recent Orders */}
           <Grid item xs={12}>

@@ -40,8 +40,6 @@ export const CasinoBets = ({ bets }) => {
         rows={bets}
         columns={columns}
         disableRowSelectionOnClick
-        pageSize={5}
-        rowsPerPageOptions={[5]}
         getRowId={(row) => row.gameId}
       />
     </div>

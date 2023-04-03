@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js';
-
 import { 
   SPICY_API,
   SPICY_STABLE_API,
