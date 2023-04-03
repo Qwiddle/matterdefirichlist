@@ -1,5 +1,5 @@
 export const TZKT_API = 'https://api.tzkt.io/v1';
 export const SPICY_API = 'https://spicyb.sdaotools.xyz/api/rest';
 export const SPICY_STABLE_API = 'https://stable.sdaotools.xyz/api/rest';
-export const SALSA_CASINO_API = 'http://127.0.0.1:8080/api/rest';
+export const SALSA_CASINO_API = 'http://149.28.103.54:8080/api/rest';
 export const MATTER = 'KT1K4jn23GonEmZot3pMGth7unnzZ6EaMVjY';
