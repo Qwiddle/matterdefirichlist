@@ -19,3 +19,13 @@ export const casinoBankrollTagTickers = new Map([
   ['KT19ovJhcsUn4YU8Q5L3BGovKSixfbWcecEA:0', 'RSAL'],
   ['KT1WtCq6FuL2kYTK1x7AkmpPjb8wEJZTUwvX:0', 'wTaco'],
 ]);
+
+export const areaColorsTickersMap = new Map([
+  ['WTZ', '#0f61ff'],
+  ['uUSD', '#820ec8'],
+  ['USDtz', '#189ca2'],
+  ['kUSD', '#3fbd92'],
+  ['GSAL', '#396a4c'],
+  ['RSAL', '#ffb1b1'],
+  ['wTaco', '#ffe5c8'],
+])

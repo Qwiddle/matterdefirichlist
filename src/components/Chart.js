@@ -1,6 +1,6 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { tokenMapToArray } from '../util/bets';
-import { casinoBankrollTagTickers } from '../const';
+import { areaColorsTickersMap, casinoBankrollTagTickers } from '../const';
 
 const sortBetsByGame = (bets) => {
   return bets.sort((a, b) => {
@@ -52,13 +52,35 @@ export const Chart = ({ profitData }) => {
           bottom: 0,
         }}
       >
+        <defs>
+          {Array.from(areaColorsTickersMap.entries()).map((area) => (
+            <linearGradient 
+              key={`gradient-${area[0]}`} 
+              id={`color${area[0]}`} 
+              x1="0" 
+              y1="0" 
+              x2="0" 
+              y2="1"
+            >
+              <stop offset="5%" stopColor={area[1]} stopOpacity={0}/>
+              <stop offset="100%" stopColor={area[1]} stopOpacity={0.8}/>
+            </linearGradient>
+          ))}
+        </defs>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="gameId" />
         <YAxis />
         <Tooltip />
-        <Area type="monotone" dataKey="WTZ" stackId="1" stroke="#8884d8" fill="#8884d8" />
-        <Area type="monotone" dataKey="uUSD" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-        <Area type="monotone" dataKey="USDtz" stackId="1" stroke="#ffc658" fill="#ffc658" />
+        {Array.from(areaColorsTickersMap.entries()).map((area) => (
+          <Area 
+            key={`area-${area[0]}`} 
+            type="monotone" 
+            dataKey={area[0]} 
+            stroke={area[1]} 
+            fillOpacity={1} 
+            fill={`url(#color${area[0]})`} 
+          />
+        ))}
       </AreaChart>
     </ResponsiveContainer>
   )
