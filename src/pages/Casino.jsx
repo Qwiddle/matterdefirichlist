@@ -15,6 +15,9 @@ export const Casino = () => {
     fetchUserStats,
     userBets,
     userBetsByToken,
+    winningBets,
+    losingBets,
+    userHighestWinStreak,
   } = useCasino();
 
   useEffect(() => {
@@ -81,13 +84,22 @@ export const Casino = () => {
             <Card>
               <CardContent>
                 <div style={{overflow: "hidden", textOverflow: "ellipsis", width: '100%'}}> 
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  <Typography variant="h5">
                   Lifetime Wagers
                   </Typography>
                 </div>
-                <Typography variant="h5" component="div">
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   Total Bets: {userBets && userBets.length}
-                </Typography><br></br>
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Total Wins: {winningBets && winningBets}
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Total Losses: {losingBets && losingBets}
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Highest Win Streak: {userHighestWinStreak && userHighestWinStreak}
+                </Typography>
                 {totalWagered && totalWagered.map((wager, index) => (
                   <>
                     <b key={`sym-${index}`}>{wager.symbol}</b>: - total: <b key={`tot-${index}`}>{wager.total}</b>
