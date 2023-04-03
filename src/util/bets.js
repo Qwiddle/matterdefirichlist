@@ -14,7 +14,7 @@ export const splitBetsByTokenAndSum = (bets) => {
 
     if (!found) {
       acc.set(curr.tag, {
-        bets: [], 
+        bets: [curr], 
         total: parseInt(curr.amount), 
       });
     } else {
