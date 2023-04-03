@@ -22,7 +22,6 @@ export const useMatter = () => {
   const [configs, setConfigs] = useState(null)
   const [farms, setFarms] = useState(null)
   const [accounts, setAccounts] = useState(null)
-  const [balances, setBalances] = useState(null)
 
   const fetchAll = async () => {
     const [
@@ -63,7 +62,6 @@ export const useMatter = () => {
     setConfigs(configs);
     setFarms(matchedFarms);
     setAccounts(matchedAccounts);
-    setBalances();
     setMatterPrice(await fetchMatterPrice());
     setLoading(false);
   }

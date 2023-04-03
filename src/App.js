@@ -1,14 +1,28 @@
 import './App.css';
-import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Routes, Route, redirect, useLocation, useNavigate } from 'react-router-dom';
 import { Matter } from './pages/Matter';
+import { Casino } from './pages/Casino';
 import { PageLayout } from './components/PageLayout';
 
 const App = () => {
   const [searchFilter, setSearchFilter] = useState('');
+  const userAddress = useRef('');
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleInputChange = (input) => {
-    setSearchFilter({ ...searchFilter, input });
+    setSearchFilter(input);
+    userAddress.current = input;
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    if(location.pathname.includes('casino')) {
+      navigate(`/casino/${userAddress.current}`);
+    }
   }
 
   return (
@@ -16,7 +30,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={
           <PageLayout
-            handleInputChange={handleInputChange} 
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
           />
         }>
           <Route 
@@ -31,6 +46,12 @@ const App = () => {
               searchFilter={searchFilter} 
             />}
           />
+          <Route path="casino">
+            <Route 
+              path=":userAddress" 
+              element={<Casino />}
+            />
+          </Route>
           <Route
             path="*" 
             element={<Matter
