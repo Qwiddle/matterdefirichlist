@@ -62,15 +62,15 @@ export const Chart = ({ profitData }) => {
               x2="0" 
               y2="1"
             >
-              <stop offset="5%" stopColor={area[1]} stopOpacity={0}/>
-              <stop offset="100%" stopColor={area[1]} stopOpacity={0.8}/>
+              <stop offset="5%" stopColor={area[1]} stopOpacity={0.8}/>
+              <stop offset="80%" stopColor={area[1]} stopOpacity={0.1}/>
             </linearGradient>
           ))}
         </defs>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="gameId" />
         <YAxis />
-        <Tooltip />
+        <Tooltip wrapperStyle={{ outline: "none" }} />
         {Array.from(areaColorsTickersMap.entries()).map((area) => (
           <Area 
             key={`area-${area[0]}`} 

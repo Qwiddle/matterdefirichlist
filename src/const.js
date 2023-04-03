@@ -21,8 +21,8 @@ export const casinoBankrollTagTickers = new Map([
 ]);
 
 export const areaColorsTickersMap = new Map([
-  ['WTZ', '#0f61ff'],
-  ['uUSD', '#820ec8'],
+  ['WTZ', '#1e90ff'],
+  ['uUSD', '#9a7feb'],
   ['USDtz', '#189ca2'],
   ['kUSD', '#3fbd92'],
   ['GSAL', '#396a4c'],
