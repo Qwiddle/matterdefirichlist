@@ -33,8 +33,6 @@ const useCasino = () => {
       casinoBankrollWhitelest
     );
 
-    console.log(bets);
-
     setUserBets(bets);
     setUserBetsByToken(betsByToken);
     setUserInvestments(investments);

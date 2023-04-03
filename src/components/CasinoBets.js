@@ -34,8 +34,6 @@ const columns = [
 ];
 
 export const CasinoBets = ({ bets }) => {
-  console.log(bets);
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid

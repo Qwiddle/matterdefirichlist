@@ -82,7 +82,6 @@ export const tokenMapToArray = (tokens) => {
 }
 
 export const getTotalWagered = (bets) => {
-  console.log(Object.values(bets));
   return Object.values(bets);
 }
 
