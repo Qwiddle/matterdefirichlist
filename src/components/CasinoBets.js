@@ -1,7 +1,30 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { casinoBankrollTagTickers } from '../const';
+import { sortBetsByGame } from '../util/util';
+
+const renderDateColumn = (params) => {
+  if (!params.value) return '';
+
+  const renderedDate = new Date(params.value).toLocaleDateString(
+    'en-US',
+    {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }
+  );
+
+  return (<a href={`https://tzkt.io/${params.row.operation}`} target="_blank" rel="noreferrer">{renderedDate}</a>);
+}
 
 const columns = [
+  {
+    field: 'timestamp',
+    headerName: 'Date',
+    width: 130,
+    flex: 1,
+    renderCell: (params) => renderDateColumn(params),
+  },
   { 
     field: 'token', 
     headerName: 'Token', 
@@ -37,7 +60,7 @@ export const CasinoBets = ({ bets }) => {
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
-        rows={bets}
+        rows={sortBetsByGame(bets, true)}
         columns={columns}
         disableRowSelectionOnClick
         getRowId={(row) => row.gameId}
