@@ -8,7 +8,7 @@ const renderDateColumn = (params) => {
   const renderedDate = new Date(params.value).toLocaleDateString(
     'en-US',
     {
-      year: 'numeric',
+      year: '2-digit',
       month: '2-digit',
       day: '2-digit',
     }
