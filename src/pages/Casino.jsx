@@ -65,23 +65,23 @@ export const Casino = () => {
       }}
     >
       <Container maxWidth="lg" sx={{ mb: 4, display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>
-      <Paper style={{ height: '70px', overflow: "hidden", textOverflow: "ellipsis", textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2rem'}}> 
-        { userAvatar
-          ? <img 
-            src={userAvatar} 
-            width="48"
-            height="48"  
-          />
-          : 
-          <Box
-            sx={{
-              height: '48px',
-              width: '48px',
-            }}
-           />
-        }
-        <Typography variant="h6" fontWeight={600} noWrap>{userAddress}</Typography>
-      </Paper>
+        <Paper style={{ height: '70px', overflow: "hidden", textOverflow: "ellipsis", textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2rem'}}> 
+          { userAvatar
+            ? <img 
+              src={userAvatar} 
+              width="48"
+              height="48"  
+            />
+            : 
+            <Box
+              sx={{
+                height: '48px',
+                width: '48px',
+              }}
+            />
+          }
+          <Typography variant="h6" fontWeight={600} noWrap>{userAddress}</Typography>
+        </Paper>
 
         <Grid container spacing={3}>
           {/* Chart */}
