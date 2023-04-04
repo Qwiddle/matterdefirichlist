@@ -65,7 +65,7 @@ export const Casino = () => {
       }}
     >
       <Container maxWidth="lg" sx={{ mb: 4, display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>
-      <div style={{overflow: "hidden", textOverflow: "ellipsis", textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '2rem'}}> 
+      <Paper style={{ height: '70px', overflow: "hidden", textOverflow: "ellipsis", textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2rem'}}> 
         { userAvatar
           ? <img 
             src={userAvatar} 
@@ -81,17 +81,17 @@ export const Casino = () => {
            />
         }
         <Typography variant="h6" fontWeight={600} noWrap>{userAddress}</Typography>
-      </div>
+      </Paper>
 
         <Grid container spacing={3}>
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
-            <Paper
+            <Card
               sx={{
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                height: 310
+                height: '460px',
               }}
             >
               <div style={{overflow: "hidden", textOverflow: "ellipsis", width: '100%' }}> 
@@ -99,16 +99,43 @@ export const Casino = () => {
               </div>
 
               <Chart profitData={userBetsByToken} />
-            </Paper>
+            </Card>
           </Grid>
           {/* Recent Deposits */}
           <Grid item xs={12} md={4} lg={3}>
-            <Card>
-              <CardContent>
-                <div style={{overflow: "hidden", textOverflow: "ellipsis", width: '100%'}}> 
-                  <Typography variant="h5">
+            <Card 
+              style={{
+                  height: '100%',
+                }} 
+              >
+              <CardContent
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-around',
+                  height: '100%',
+                  gap: '12px'
+                }}
+              >
+                <Typography variant="h5">
                   Lifetime Wagers
-                  </Typography>
+                </Typography>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 'auto'}}>
+                  {totalWagered && totalWagered.map((wager, index) => (
+                    <>
+                      <span><b key={`sym-${index}`}>{wager.symbol}</b>: - total: <b key={`tot-${index}`}>{wager.total}</b></span>
+                      <Typography 
+                        sx={{ 
+                          fontSize: 14, 
+                        }}
+                        color={`${(wager.won - wager.lost) > 0 ? `green` : `red`}`}
+                        gutterBottom
+                        key={`pl-${index}`}
+                      >
+                      p&l: <b key={`pl-${index}`}>{wager.won - wager.lost > 0 ? `${(wager.won - wager.lost).toFixed(2)} ++` : `${(wager.won - wager.lost).toFixed(2)} --`}</b>
+                      </Typography>
+                    </>
+                  ))}
                 </div>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   Total Bets: {userBets && userBets.length}
@@ -122,21 +149,6 @@ export const Casino = () => {
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   Highest Win Streak: {userHighestWinStreak && userHighestWinStreak}
                 </Typography>
-                {totalWagered && totalWagered.map((wager, index) => (
-                  <>
-                    <b key={`sym-${index}`}>{wager.symbol}</b>: - total: <b key={`tot-${index}`}>{wager.total}</b>
-                    <Typography 
-                      sx={{ 
-                        fontSize: 14, 
-                      }}
-                      color={`${(wager.won - wager.lost) > 0 ? `green` : `red`}`}
-                      gutterBottom
-                      key={`pl-${index}`}
-                    >
-                    p&l: <b key={`pl-${index}`}>{wager.won - wager.lost > 0 ? `${(wager.won - wager.lost).toFixed(2)} ++` : `${(wager.won - wager.lost).toFixed(2)} --`}</b>
-                    </Typography>
-                  </>
-                ))}  
                 <Typography variant="body2">
                   the sdao community thanks you
                   <br />
