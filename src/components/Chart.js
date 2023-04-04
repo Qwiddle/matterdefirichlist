@@ -22,7 +22,7 @@ function reduceAndAddAmounts(profitData) {
     const symbol = casinoBankrollTagTickers.get(data.tag);
 
     if (data.winner) {
-      sumByTag[symbol] = (sumByTag[symbol] || 0) + data.amount;
+      sumByTag[symbol] = (sumByTag[symbol] || 0) + data.payout;
     } else {
       sumByTag[symbol] = (sumByTag[symbol] || 0) - data.amount;
     }

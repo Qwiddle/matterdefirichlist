@@ -87,7 +87,7 @@ export const getTotalWagered = (bets) => {
 
 export const getTotalWin = (bets) => {
   return bets.reduce((acc, curr) => {
-    return acc + (curr.winner ?  Number(curr.amount) : 0);
+    return acc + (curr.winner ?  Number(curr.payout) : 0);
   }, 0)
 }
 
