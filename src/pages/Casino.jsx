@@ -94,8 +94,8 @@ export const Casino = () => {
                 height: 310
               }}
             >
-              <div style={{overflow: "hidden", textOverflow: "ellipsis", width: '100%'}}> 
-                <Typography variant="h5" fontWeight={600} noWrap>Profit Over Time</Typography>
+              <div style={{overflow: "hidden", textOverflow: "ellipsis", width: '100%' }}> 
+                <Typography variant="h5" noWrap>Lifetime Profit</Typography>
               </div>
 
               <Chart profitData={userBetsByToken} />

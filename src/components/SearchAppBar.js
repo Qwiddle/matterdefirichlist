@@ -117,7 +117,7 @@ export default function SearchAppBar({ handleInputChange, handleSubmit }) {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static">
         <Toolbar>
           <Typography

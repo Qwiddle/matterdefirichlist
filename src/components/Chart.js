@@ -46,7 +46,7 @@ export const Chart = ({ profitData }) => {
         height={400}
         data={chartData}
         margin={{
-          top: 10,
+          top: 20,
           right: 30,
           left: 0,
           bottom: 0,
