@@ -170,3 +170,12 @@ export const sortBetsByGame = (bets, descend = false) => {
     }
   })
 }
+
+export const formattedTimestamp = (timestamp) => {
+  return new Date(timestamp)
+  .toLocaleString('en-US', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+  });
+}

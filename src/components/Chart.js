@@ -1,6 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { tokenMapToArray } from '../util/bets';
 import { areaColorsTickersMap, casinoBankrollTagTickers } from '../const';
+import { formattedTimestamp } from '../util/util';
 
 const sortBetsByGame = (bets) => {
   return bets.sort((a, b) => {
@@ -27,7 +28,10 @@ function reduceAndAddAmounts(profitData) {
       sumByTag[symbol] = (sumByTag[symbol] || 0) - data.amount;
     }
     
-    let newObj = Object.assign({}, { gameId: data.gameId }, sumByTag);
+    let newObj = Object.assign({}, {
+      timestamp: formattedTimestamp(data.timestamp) 
+    }, sumByTag);
+    
     resultArray.push(newObj);
   });
 
@@ -68,7 +72,7 @@ export const Chart = ({ profitData }) => {
           ))}
         </defs>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="gameId" />
+        <XAxis dataKey="timestamp" tickMargin={10} />
         <YAxis />
         <Tooltip wrapperStyle={{ outline: "none" }} />
         {Array.from(areaColorsTickersMap.entries()).map((area) => (
