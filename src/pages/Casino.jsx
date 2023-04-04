@@ -80,7 +80,7 @@ export const Casino = () => {
               }}
             />
           }
-          <Typography variant="h6" fontWeight={600} noWrap>{userAddress}</Typography>
+          <Typography variant="h6" fontWeight={600} paddingX={0.5} noWrap>{userAddress}</Typography>
         </Paper>
 
         <Grid container spacing={3}>
