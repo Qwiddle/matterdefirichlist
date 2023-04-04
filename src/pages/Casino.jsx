@@ -10,9 +10,11 @@ export const Casino = () => {
   const { userAddress } = useParams();
 
   const [totalWagered, setTotalWagered] = useState([]);
+  const [userAvatar, setUserAvatar] = useState(null);
 
   const { 
     fetchUserStats,
+    fetchAvatar,
     userBets,
     userBetsByToken,
     winningBets,
@@ -26,7 +28,13 @@ export const Casino = () => {
         await fetchUserStats(userAddress);
       }
 
+      const fetchTzktAvatar = async () => {
+        const avatar = await fetchAvatar(userAddress);
+        setUserAvatar(avatar);
+      }
+
       fetchStats().catch(console.error);
+      fetchTzktAvatar().catch(console.error);
     }
   }, [userAddress]);
 
@@ -52,13 +60,27 @@ export const Casino = () => {
             ? theme.palette.grey[100]
             : theme.palette.grey[900],
         flexGrow: 1,
-        height: '100vh',
+        height: '100%',
         overflow: 'auto',
       }}
     >
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4, display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>
-      <div style={{overflow: "hidden", textOverflow: "ellipsis", textAlign: 'center', width: '100%'}}> 
-        <Typography variant="h5" fontWeight={600} noWrap>{userAddress}</Typography>
+      <Container maxWidth="lg" sx={{ mb: 4, display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>
+      <div style={{overflow: "hidden", textOverflow: "ellipsis", textAlign: 'center', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '2rem'}}> 
+        { userAvatar
+          ? <img 
+            src={userAvatar} 
+            width="48"
+            height="48"  
+          />
+          : 
+          <Box
+            sx={{
+              height: '48px',
+              width: '48px',
+            }}
+           />
+        }
+        <Typography variant="h6" fontWeight={600} noWrap>{userAddress}</Typography>
       </div>
 
         <Grid container spacing={3}>

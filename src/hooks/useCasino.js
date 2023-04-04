@@ -2,6 +2,7 @@ import { casinoBankrollWhitelest } from '../const';
 import { filterWhitelisted, splitBetsByTokenAndSum, getHighestWinStreak, matchTokenToBankroll } from '../util/bets';
 import { fetchUserBets, fetchUserInvestments } from '../api/casino';
 import { useState } from 'react';
+import { fetchUserAvatar } from '../api/tzkt';
 
 const useCasino = () => {
   const [userBets, setUserBets] = useState([]);
@@ -10,6 +11,10 @@ const useCasino = () => {
   const [winningBets, setWinningBets] = useState(0);
   const [losingBets, setLosingBets] = useState(0);
   const [userHighestWinStreak, setUserHighestWinStreak] = useState(0);
+
+  const fetchAvatar = async (userAddress) => {
+    return fetchUserAvatar(userAddress);
+  }
 
   const fetchUserStats = async (userAddress) => {
     const [
@@ -62,6 +67,7 @@ const useCasino = () => {
 
   return { 
     fetchUserStats,
+    fetchAvatar,
     matchTokenToBankroll,
     userBets,
     userBetsByToken,

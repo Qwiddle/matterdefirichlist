@@ -1,6 +1,7 @@
 import { 
   TZKT_API, 
-  MATTER 
+  MATTER, 
+  TZKT_AVATAR_API
 } from './api.js';
 
 export const fetchTokenName = async (contract) => {
@@ -83,4 +84,12 @@ export const fetchMatterBalances = async () => {
   console.log('Matter balances: ', res);
 
   return res;
+}
+
+export const fetchUserAvatar = async (userAddress) => {
+  const req = `${TZKT_AVATAR_API}/${userAddress}`;
+  const res = await fetch(req);
+  const imageBlob = await res.blob();
+
+  return URL.createObjectURL(imageBlob);
 }
