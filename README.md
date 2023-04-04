@@ -15,9 +15,13 @@ Presently, this project supports tracking the following:
 3. Total wager counter
 4. Highest win streak, total bets, total wins, total losses.
 
+![image](https://user-images.githubusercontent.com/24196928/229689409-87805e09-6f60-4b50-8348-77f2364113dd.png)
+
 ###  Matter Defi
 1. See active depositors, ranked by the value of their staked LP tokens.
 2. See deposit proportions and total value of each pool they are currently earning yield on.
+
+![image](https://user-images.githubusercontent.com/24196928/229689450-b618a728-279d-4437-b1f5-e1b281f1a551.png)
 
 ## Available Scripts
 
