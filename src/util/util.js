@@ -160,3 +160,13 @@ export const sortFarms = (farms, descend = true) => {
 
   return sorted;
 }
+
+export const sortBetsByGame = (bets, descend = false) => {
+  return bets.sort((a, b) => {
+    if(a.gameId > b.gameId) {
+      return descend ? -1 : 1;
+    } else {
+      return descend ? 1 : -1;
+    }
+  })
+}
