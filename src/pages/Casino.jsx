@@ -43,7 +43,7 @@ export const Casino = () => {
       setTotalWagered(Array.from(userBetsByToken).map(([, value]) => {
         return {
           symbol: value.token.metadata.symbol,
-          total: value.totalShifted,
+          total: value.totalShifted.toFixed(2),
           won: value.totalWinnings,
           lost: value.totalLosses,
         }
