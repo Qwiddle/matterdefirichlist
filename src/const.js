@@ -25,7 +25,7 @@ export const areaColorsTickersMap = new Map([
   ['uUSD', '#9a7feb'],
   ['USDtz', '#189ca2'],
   ['kUSD', '#3fbd92'],
-  ['GSAL', '#396a4c'],
-  ['RSAL', '#ffb1b1'],
-  ['wTaco', '#ffe5c8'],
+  //['GSAL', '#396a4c'],
+  //['RSAL', '#ffb1b1'],
+  //['wTaco', '#ffe5c8'],
 ])
