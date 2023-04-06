@@ -17,3 +17,12 @@ export const fetchUserInvestments = async (userAddress, limit = 10000) => {
 
   return investment;
 }
+
+export const fetchLeaderboard = async () => {
+  const req = `${SALSA_CASINO_API}/getLeaderboard`;
+  const res = await (await fetch(req)).json();
+
+  const { bet_total_leaderboard_vw: leaderboard } = res;
+
+  return leaderboard;
+}
