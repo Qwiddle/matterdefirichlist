@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { CasinoBets } from '../components/CasinoBets';
 import { tokenMapToArray } from '../util/bets';
 import { Chart } from '../components/Chart';
+import { Leaderboard } from 'components/Leaderboard';
 
 export const Casino = () => {
   const { userAddress } = useParams();
@@ -51,7 +52,7 @@ export const Casino = () => {
     }
   }, [userBetsByToken]);
 
-  return (
+  return userAddress ? (
     <Box
       component="main"
       sx={{
@@ -165,5 +166,5 @@ export const Casino = () => {
         </Grid>
       </Container>
     </Box>
-  )
+  ) : <Leaderboard />;
 }

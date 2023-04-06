@@ -20,6 +20,23 @@ export const casinoBankrollTagTickers = new Map([
   ['KT1WtCq6FuL2kYTK1x7AkmpPjb8wEJZTUwvX:0', 'wTaco'],
 ]);
 
+export const casinoBankrollTokenDecimals = new Map([
+  ['KT1PnUZCp3u2KzWr93pn4DD7HAJnm3rWVrgn:0', 6],
+  ['KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW:0', 12],
+  ['KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV:null', 18],
+  ['KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9:null', 6],
+]);
+
+export const displayTickerToTicker = new Map([
+  ['wtz', 'WTZ'],
+  ['uusd', 'uUSD'],
+  ['usdtz', 'USDtz'],
+  ['kusd', 'kUSD'],
+  ['gsal', 'GSAL'],
+  ['rsal', 'RSAL'],
+  ['wtaco', 'wTaco'],
+])
+
 export const areaColorsTickersMap = new Map([
   ['WTZ', '#1e90ff'],
   ['uUSD', '#9a7feb'],
