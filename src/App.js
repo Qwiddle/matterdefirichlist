@@ -1,5 +1,5 @@
 import './App.css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Matter } from './pages/Matter';
 import { Casino } from './pages/Casino';
@@ -11,6 +11,7 @@ const App = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleInputChange = (input) => {
     setSearchFilter(input);
@@ -24,6 +25,10 @@ const App = () => {
       navigate(`/casino/${userAddress.current}`);
     }
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="app">
@@ -46,7 +51,10 @@ const App = () => {
               searchFilter={searchFilter} 
             />}
           />
-          <Route path="casino">
+          <Route 
+            path="casino"
+            element={<Casino />}
+            >
             <Route 
               path=":userAddress" 
               element={<Casino />}
