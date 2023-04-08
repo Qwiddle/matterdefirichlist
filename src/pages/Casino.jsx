@@ -18,6 +18,7 @@ export const Casino = () => {
     fetchAvatar,
     userBets,
     userBetsByToken,
+    userDayData,
     winningBets,
     losingBets,
     userHighestWinStreak,
@@ -34,8 +35,8 @@ export const Casino = () => {
         setUserAvatar(avatar);
       }
 
-      fetchStats().catch(console.error);
       fetchTzktAvatar().catch(console.error);
+      fetchStats().catch(console.error);
     }
   }, [userAddress]);
 
@@ -99,7 +100,7 @@ export const Casino = () => {
                 <Typography variant="h5" noWrap>Lifetime Profit</Typography>
               </div>
 
-              <Chart profitData={userBetsByToken} />
+              <Chart profitData={userDayData} />
             </Card>
           </Grid>
           {/* Recent Deposits */}

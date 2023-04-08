@@ -1,32 +1,18 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { tokenMapToArray } from '../util/bets';
-import { areaColorsTickersMap, casinoBankrollTagTickers } from '../const';
+import { areaColorsTickersMap, casinoBankrollTagTickers, casinoBankrollTokenDecimals } from '../const';
 import { formattedTimestamp } from '../util/util';
 
-const sortBetsByGame = (bets) => {
-  return bets.sort((a, b) => {
-    if (a.gameId < b.gameId) return -1;
-
-    if (a.gameId > b.gameId) return 1;
-  
-    return 0;
-  })
-}
-
-function reduceAndAddAmounts(profitData) {
+function reduceAndAddAmounts(dayData) {
   const resultArray = [];
 
 // create object with unique "tag" as key and sum of "amount" as value
   let sumByTag = {};
 
-  sortBetsByGame(profitData).forEach((data) => {
+  dayData.forEach((data) => {
     const symbol = casinoBankrollTagTickers.get(data.tag);
 
-    if (data.winner) {
-      sumByTag[symbol] = (sumByTag[symbol] || 0) + data.payout;
-    } else {
-      sumByTag[symbol] = (sumByTag[symbol] || 0) - data.amount;
-    }
+    sumByTag[symbol] = (sumByTag[symbol] || 0) +
+      (Number(data.sum) / Math.pow(10, casinoBankrollTokenDecimals.get(data.tag)));
     
     let newObj = Object.assign({}, {
       timestamp: formattedTimestamp(data.timestamp) 
@@ -38,12 +24,10 @@ function reduceAndAddAmounts(profitData) {
   return resultArray;
 }
 
-export const Chart = ({ profitData }) => {
+export const Chart = ({profitData}) => {
+  const chartData = reduceAndAddAmounts(profitData);
 
-  const array = tokenMapToArray(profitData);
-  const chartData = reduceAndAddAmounts(array);
-
-  return (
+  return profitData.length && (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
         width={500}
