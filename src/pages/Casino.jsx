@@ -12,6 +12,7 @@ export const Casino = () => {
 
   const [totalWagered, setTotalWagered] = useState([]);
   const [userAvatar, setUserAvatar] = useState(null);
+  const [chartData, setChartData] = useState([]);
 
   const { 
     fetchUserStats,
@@ -42,6 +43,7 @@ export const Casino = () => {
 
   useEffect(() => {
     if (userBetsByToken) {
+      setChartData(tokenMapToArray(userBetsByToken));
       setTotalWagered(Array.from(userBetsByToken).map(([, value]) => {
         return {
           symbol: value.token.metadata.symbol,
@@ -100,7 +102,7 @@ export const Casino = () => {
                 <Typography variant="h5" noWrap>Lifetime Profit</Typography>
               </div>
 
-              <Chart profitData={userDayData} />
+              <Chart profitData={userDayData} betData={chartData} />
             </Card>
           </Grid>
           {/* Recent Deposits */}
@@ -124,8 +126,8 @@ export const Casino = () => {
                 </Typography>
                 <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 'auto'}}>
                   {totalWagered && totalWagered.map((wager, index) => (
-                    <>
-                      <span><b key={`sym-${index}`}>{wager.symbol}</b>: - total: <b key={`tot-${index}`}>{wager.total}</b></span>
+                    <span key={`token-bet2-${index}`}>
+                      <span key={`token-bet-${index}`}><b key={`sym-${index}`}>{wager.symbol}</b>: - total: <b key={`tot-${index}`}>{wager.total}</b></span>
                       <Typography 
                         sx={{ 
                           fontSize: 14, 
@@ -134,9 +136,9 @@ export const Casino = () => {
                         gutterBottom
                         key={`pl-${index}`}
                       >
-                      p&l: <b key={`pl-${index}`}>{wager.won - wager.lost > 0 ? `${(wager.won - wager.lost).toFixed(2)} ++` : `${(wager.won - wager.lost).toFixed(2)} --`}</b>
+                      <span key={`token-bet-${index}`}>p&l: <b key={`pl-${index}`}>{wager.won - wager.lost > 0 ? `${(wager.won - wager.lost).toFixed(2)} ++` : `${(wager.won - wager.lost).toFixed(2)} --`}</b></span>
                       </Typography>
-                    </>
+                    </span>
                   ))}
                 </div>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

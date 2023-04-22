@@ -57,6 +57,7 @@ const useCasino = () => {
   }
 
   const transformUserStatistics = async (bets, dayData, investments, whitelist) => {
+    console.log(bets, dayData);
     const whitelistedBets = filterWhitelisted(bets, whitelist);
     const whitelistedDayData = filterWhitelisted(dayData, whitelist);
     const betsByToken = splitBetsByTokenAndSum(whitelistedBets);

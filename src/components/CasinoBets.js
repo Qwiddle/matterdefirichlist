@@ -14,7 +14,7 @@ const renderDateColumn = (params) => {
     }
   );
 
-  return (<a href={`https://tzkt.io/${params.row.operation}`} target="_blank" rel="noreferrer">{renderedDate}</a>);
+  return (<a key={params.row.gameId} href={`https://tzkt.io/${params.row.operation}`} target="_blank" rel="noreferrer">{renderedDate}</a>);
 }
 
 const columns = [

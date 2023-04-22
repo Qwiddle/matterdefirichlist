@@ -22,7 +22,7 @@ export const fetchUserDayData = async (userAddress) => {
   const req = `${SALSA_CASINO_API}/getBetsByDay?userAddress=${userAddress}`;
   const res = await (await fetch(req)).json();
 
-  const { bet_by_day: day } = res;
+  const { betByDay: day } = res;
 
   return day;
 }
@@ -32,7 +32,7 @@ export const fetchLeaderboard = async () => {
   const req = `${SALSA_CASINO_API}/getLeaderboard`;
   const res = await (await fetch(req)).json();
 
-  const { bet_total_leaderboard_vw: leaderboard } = res;
+  const { bet_total_leaderboard_vw3: leaderboard } = res;
 
   return leaderboard;
 }
