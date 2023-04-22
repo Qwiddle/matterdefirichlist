@@ -34,8 +34,6 @@ const columns = [
 ];
 
 const LeaderTable = ({ bets }) => {
-  console.log(bets);
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
@@ -55,7 +53,6 @@ const LeaderTable = ({ bets }) => {
 
 export const Leaderboard = () => {
   const [sums, setSums] = useState(null);
-  console.log(sums);
 
   const {
     fetchAllSums
@@ -67,7 +64,6 @@ export const Leaderboard = () => {
 
       const splitBetsByTokenAndSum = (bets) => {
         return bets.reduce((acc, curr) => {
-          console.log(bets);
           Object.keys(curr).forEach((key) => {
             const [token, type] = key.split('_');
 
@@ -77,8 +73,6 @@ export const Leaderboard = () => {
               });
 
             const found = tag && acc.get(tag[0]);
-
-            console.log(found);
             
             if(!found && type == 'sum') {
               curr[`${token}_count`] > 0 && acc.set(tag[0], [{
@@ -101,8 +95,6 @@ export const Leaderboard = () => {
           return acc;
         }, new Map());
       }
-      console.log(splitBetsByTokenAndSum(sums));
-
       setSums(splitBetsByTokenAndSum(sums));
     }
 
